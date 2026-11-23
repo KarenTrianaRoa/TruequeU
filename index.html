@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TruequeU - Intercambio, Donación y Venta de Útiles Escolares</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <h1>Trueque<span>U</span></h1>
+        </div>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Abrir menú" aria-expanded="false">☰</button>
+        <nav id="mainNav">
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#catalogo">Materiales</a></li>
+                <li><a href="#faq">Preguntas</a></li>
+                <li><button type="button" class="nav-btn" id="profileBtn">Mi perfil</button></li>
+                <li><button type="button" class="nav-btn" id="themeToggle" aria-label="Cambiar tema">Modo oscuro</button></li>
+                <li><a href="#publicar" class="btn-primary">+ Publicar</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h2>Reutiliza, Comparte y Ahorra</h2>
+            <p>La plataforma para que estudiantes intercambien, donen o vendan libros, calculadoras, cuadernos y más útiles escolares.</p>
+            <div class="hero-buttons">
+                <a href="#catalogo" class="btn-secondary">Explorar Materiales</a>
+                <a href="#publicar" class="btn-primary">Donar, Intercambiar o Vender</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section" aria-label="Estadísticas de la comunidad">
+        <div class="stat"><strong id="statTotal">0</strong><span>Publicaciones</span></div>
+        <div class="stat"><strong id="statDonations">0</strong><span>Donaciones</span></div>
+        <div class="stat"><strong id="statTrades">0</strong><span>Trueques</span></div>
+        <div class="stat"><strong id="statSales">0</strong><span>En venta</span></div>
+        <div class="stat"><strong id="statDone">0</strong><span>Útiles con segunda vida</span></div>
+    </section>
+
+    <section id="catalogo" class="catalog-section">
+        <h2>Catálogo de Materiales</h2>
+
+        <div class="filter-container">
+            <input type="text" id="searchInput" placeholder="Buscar por título, descripción, materia o sede...">
+
+            <select id="categoryFilter" aria-label="Categoría">
+                <option value="todos">Todas las categorías</option>
+                <option value="libros">Libros y Textos</option>
+                <option value="tecnologia">Calculadoras y Tecnología</option>
+                <option value="cuadernos">Cuadernos y Carpetas</option>
+                <option value="geometria">Reglas y Geometría</option>
+                <option value="varios">Otros Útiles</option>
+            </select>
+
+            <select id="typeFilter" aria-label="Tipo de publicación">
+                <option value="todos">Todos los tipos</option>
+                <option value="intercambio">Para Trueque</option>
+                <option value="donacion">Donación Gratuita</option>
+                <option value="venta">En Venta</option>
+                <option value="busco">Se busca (pedidos)</option>
+            </select>
+        </div>
+
+        <div class="filter-container">
+            <select id="conditionFilter" aria-label="Estado del útil">
+                <option value="todos">Cualquier estado</option>
+                <option value="nuevo">Nuevo</option>
+                <option value="bueno">Buen estado</option>
+                <option value="usado">Usado</option>
+            </select>
+
+            <input type="text" id="materiaFilter" class="filter-small" placeholder="Materia o carrera (ej. Cálculo)">
+            <input type="text" id="sedeFilter" class="filter-small" placeholder="Institución o sede">
+
+            <select id="sortSelect" aria-label="Ordenar por">
+                <option value="reciente">Más recientes</option>
+                <option value="precio-asc">Precio: menor a mayor</option>
+                <option value="precio-desc">Precio: mayor a menor</option>
+                <option value="calificacion">Mejor calificados</option>
+            </select>
+        </div>
+
+        <div class="filter-checks">
+            <label><input type="checkbox" id="onlyAvailable" checked> Solo disponibles</label>
+            <label><input type="checkbox" id="onlyFavs"> Solo mis favoritos</label>
+            <span id="resultsCount" class="results-count"></span>
+        </div>
+
+        <p id="emptyMessage" class="empty-message" hidden>No se encontraron materiales con esos filtros.</p>
+
+        <!-- Las tarjetas se generan desde script.js -->
+        <div class="materials-grid" id="materialsGrid"></div>
+
+        <div class="load-more-wrap">
+            <button type="button" class="btn-secondary" id="loadMoreBtn" hidden>Ver más materiales</button>
+        </div>
+    </section>
+
+    <section id="publicar" class="form-section">
+        <h2 id="formTitle">Publicar un Material</h2>
+        <form id="publishForm">
+            <div class="form-group">
+                <label for="itemType">Modalidad:</label>
+                <select id="itemType" required>
+                    <option value="intercambio">Deseo Intercambiarlo</option>
+                    <option value="donacion">Deseo Donarlo</option>
+                    <option value="venta">Deseo Venderlo</option>
+                    <option value="busco">Estoy buscando este material</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="itemTitle">Título del Material:</label>
+                <input type="text" id="itemTitle" required placeholder="Ej. Juego de Reglas y Compás">
+            </div>
+
+            <div class="form-group">
+                <label for="itemCategory">Categoría:</label>
+                <select id="itemCategory" required>
+                    <option value="">Selecciona una categoría</option>
+                    <option value="libros">Libros y Textos</option>
+                    <option value="tecnologia">Calculadoras y Tecnología</option>
+                    <option value="cuadernos">Cuadernos y Carpetas</option>
+                    <option value="geometria">Reglas y Geometría</option>
+                    <option value="varios">Otros Útiles</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="conditionGroup">
+                <label for="itemCondition">Estado del útil:</label>
+                <select id="itemCondition">
+                    <option value="nuevo">Nuevo</option>
+                    <option value="bueno" selected>Buen estado</option>
+                    <option value="usado">Usado</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="priceGroup" hidden>
+                <label for="itemPrice">Precio (COP):</label>
+                <input type="number" id="itemPrice" min="0" step="500" placeholder="Ej. 25000">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="itemMateria">Materia o carrera (opcional):</label>
+                    <input type="text" id="itemMateria" placeholder="Ej. Cálculo, Ing. Civil">
+                </div>
+                <div class="form-group">
+                    <label for="itemSede">Institución o sede (opcional):</label>
+                    <input type="text" id="itemSede" placeholder="Ej. Sede Apartadó">
+                </div>
+            </div>
+
+            <div class="form-group" id="photoGroup">
+                <label for="itemPhoto">Foto del material (opcional):</label>
+                <input type="file" id="itemPhoto" accept="image/*">
+                <div class="photo-preview" id="photoPreview" hidden>
+                    <img id="photoPreviewImg" alt="Vista previa de la foto">
+                    <button type="button" class="btn-link" id="removePhotoBtn">Quitar foto</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="itemDescription" id="descriptionLabel">Descripción / Lo que pides a cambio:</label>
+                <textarea id="itemDescription" rows="4" required placeholder="Detalla el estado del útil y qué buscas a cambio si es trueque."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="userName">Tu Nombre / Usuario:</label>
+                <input type="text" id="userName" required placeholder="Ej. Laura G.">
+            </div>
+
+            <div class="form-group">
+                <label for="userContact">Correo o Teléfono de contacto:</label>
+                <input type="text" id="userContact" required placeholder="Ej. laura@estudiante.edu.co / 3001234567">
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary" id="submitBtn">Publicar Útil</button>
+                <button type="button" class="btn-secondary" id="cancelEditBtn" hidden>Cancelar edición</button>
+            </div>
+        </form>
+    </section>
+
+    <section id="faq" class="faq-section">
+        <h2>Preguntas frecuentes</h2>
+        <details>
+            <summary>¿Cómo funciona un trueque?</summary>
+            <p>Publica lo que tienes y lo que buscas a cambio. Cuando alguien te contacte, acuerden el intercambio y el punto de encuentro. Cuando lo concreten, marca tu publicación como entregada.</p>
+        </details>
+        <details>
+            <summary>¿Cómo me contactan o cómo contacto a alguien?</summary>
+            <p>Con el botón de cada tarjeta se abre una ventana para escribir tu mensaje y elegir un punto de encuentro. Desde ahí lo envías por WhatsApp o por correo, según los datos que dejó quien publicó.</p>
+        </details>
+        <details>
+            <summary>Consejos para encontrarse de forma segura</summary>
+            <p>Reúnete en lugares concurridos del campus, como la biblioteca, la cafetería o la portería. Revisa el material antes de pagar o entregar el tuyo, y no compartas datos personales innecesarios.</p>
+        </details>
+        <details>
+            <summary>¿Qué hago si veo una publicación sospechosa?</summary>
+            <p>Usa el botón ⚑ de la tarjeta para reportarla. Elige un motivo y la publicación dejará de mostrarse en tu catálogo.</p>
+        </details>
+        <details>
+            <summary>¿Puedo editar o eliminar mi publicación?</summary>
+            <p>Sí. En tus propias tarjetas aparecen los botones Editar, Marcar como entregado/vendido y Eliminar.</p>
+        </details>
+        <details>
+            <summary>¿Dónde se guardan mis datos?</summary>
+            <p>Por ahora, en tu propio navegador. Las publicaciones, reseñas y favoritos que ves son de este dispositivo y no se comparten con otras personas.</p>
+        </details>
+    </section>
+
+    <!-- Modal de contacto -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" data-close="contactModal">&times;</span>
+            <h3 id="modalTitle">Acordar entrega</h3>
+            <p id="modalDetail"></p>
+            <div class="form-group">
+                <label for="meetingPoint">Punto de encuentro sugerido:</label>
+                <select id="meetingPoint">
+                    <option>Biblioteca</option>
+                    <option>Cafetería</option>
+                    <option>Portería principal</option>
+                    <option>Plazoleta central</option>
+                    <option>Lo acordamos por mensaje</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="messageText">Mensaje para el propietario:</label>
+                <textarea id="messageText" rows="3" placeholder="Hola, me interesa tu material. ¿Cuándo podemos encontrarnos?"></textarea>
+            </div>
+            <div class="contact-actions" id="contactActions"></div>
+            <p class="contact-note" id="contactNote" hidden></p>
+        </div>
+    </div>
+
+    <!-- Modal de reseñas -->
+    <div id="reviewModal" class="modal">
+        <div class="modal-content modal-reviews">
+            <span class="close-btn" data-close="reviewModal">&times;</span>
+            <h3 id="reviewModalTitle">Reseñas</h3>
+            <p id="reviewSummary" class="review-summary"></p>
+
+            <div id="reviewList" class="review-list"></div>
+
+            <form id="reviewForm" class="review-form">
+                <h4>Deja tu reseña</h4>
+                <div class="form-group">
+                    <label for="reviewName">Tu nombre:</label>
+                    <input type="text" id="reviewName" required placeholder="Ej. Pedro S.">
+                </div>
+                <div class="form-group">
+                    <label>Calificación:</label>
+                    <div class="star-input" id="starInput">
+                        <button type="button" data-value="1" aria-label="1 estrella">★</button>
+                        <button type="button" data-value="2" aria-label="2 estrellas">★</button>
+                        <button type="button" data-value="3" aria-label="3 estrellas">★</button>
+                        <button type="button" data-value="4" aria-label="4 estrellas">★</button>
+                        <button type="button" data-value="5" aria-label="5 estrellas">★</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="reviewComment">Comentario:</label>
+                    <textarea id="reviewComment" rows="3" required placeholder="¿Cómo fue el material y el trato con el vendedor o donante?"></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Enviar reseña</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de perfil -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" data-close="profileModal">&times;</span>
+            <h3>Mi perfil</h3>
+            <p class="contact-note">Tus datos se guardan solo en este navegador y se usan para rellenar el formulario de publicación.</p>
+            <form id="profileForm">
+                <div class="form-group">
+                    <label for="profileName">Nombre / Usuario:</label>
+                    <input type="text" id="profileName" required placeholder="Ej. Laura G.">
+                </div>
+                <div class="form-group">
+                    <label for="profileContact">Correo o Teléfono de contacto:</label>
+                    <input type="text" id="profileContact" required placeholder="Ej. laura@estudiante.edu.co / 3001234567">
+                </div>
+                <div id="profileStats" class="profile-stats"></div>
+                <button type="submit" class="btn-primary">Guardar perfil</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de reporte -->
+    <div id="reportModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" data-close="reportModal">&times;</span>
+            <h3>Reportar publicación</h3>
+            <p id="reportDetail" class="contact-note"></p>
+            <form id="reportForm">
+                <div class="form-group">
+                    <label for="reportReason">Motivo:</label>
+                    <select id="reportReason" required>
+                        <option value="">Selecciona un motivo</option>
+                        <option>Parece una estafa</option>
+                        <option>Contenido inapropiado</option>
+                        <option>Información falsa o engañosa</option>
+                        <option>Publicación repetida (spam)</option>
+                        <option>Otro motivo</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary">Enviar reporte</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+    <footer>
+        <p>&copy; TruequeU - Reutilización y solidaridad estudiantil.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
